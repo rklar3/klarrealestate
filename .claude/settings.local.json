@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(npm -v)",
-      "Bash(npx --version)"
+      "Bash(npx --version)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/zod/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/next-mdx-remote/package.json'\\).version\\)\")",
+      "Bash(npm run *)",
+      "PowerShell(Get-NetTCPConnection -State Listen | Where-Object {$_.LocalPort -in 3000,55793,64608} | Select-Object LocalPort,OwningProcess)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/ --max-time 10)",
+      "Bash(curl -sL \"https://oakwyn-online-production.s3.amazonaws.com/uploads/user/image/13371/Sanam-Klar-2025-11-19-Headshot-Web-2.png\" -o public/images/sanam-headshot-real.png --max-time 20)",
+      "Bash(node scripts/generate-placeholder-images.mjs)",
+      "Bash(node -e \"try { require.resolve\\('playwright'\\); console.log\\('playwright available'\\); } catch\\(e\\) { console.log\\('no playwright'\\); } try { require.resolve\\('puppeteer'\\); console.log\\('puppeteer available'\\); } catch\\(e\\) { console.log\\('no puppeteer'\\); }\")",
+      "Skill(artifact-design)",
+      "Skill(artifact-design:*)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")"
     ]
   }
 }

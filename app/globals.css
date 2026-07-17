@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #1a130f;
+  --color-ink-deep: #100b09;
+  --color-cream: #f6efe4;
+  --color-sand: #efe6d6;
+  --color-paper: #fbf6ee;
+  --color-terracotta: #c25a34;
+  --color-terracotta-dark: #a3492a;
+  --color-gold: #ebc79a;
+  --color-muted-1: #5c4f42;
+  --color-muted-2: #8a7a62;
+  --color-muted-3: #a0917e;
+  --color-success: #2e5952;
+  --color-error: #c0392b;
+
+  --font-display: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --radius-card: 10px;
+  --radius-control: 8px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  * {
+    border-color: var(--color-muted-3);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  /* No color here on purpose — headings inherit text color from their
+     section wrapper (Section sets text-ink or text-cream per tone). Setting
+     color here would win over an ancestor's text-cream and make headings on
+     dark/ink sections invisible. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .eyebrow {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.26em;
+    font-weight: 600;
+  }
+
+  .container-page {
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .post-content {
+    color: var(--color-muted-1);
+  }
+  .post-content > * + * {
+    margin-top: 1.25em;
+  }
+  .post-content h2 {
+    font-size: 1.5rem;
+    margin-top: 2em;
+    color: var(--color-ink);
+  }
+  .post-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.75em;
+    color: var(--color-ink);
+  }
+  .post-content ul {
+    list-style: disc;
+    padding-left: 1.5em;
+  }
+  .post-content a {
+    color: var(--color-terracotta);
+    text-decoration: underline;
+  }
+  .post-content em {
+    color: var(--color-muted-2);
+  }
 }

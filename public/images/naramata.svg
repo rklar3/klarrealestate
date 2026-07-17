@@ -1,0 +1,22 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img">
+  <defs>
+    <radialGradient id="vign" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#1A130F" />
+      <stop offset="100%" stop-color="#100B09" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#vign)" />
+  <rect
+    x="28.000000000000004" y="28.000000000000004"
+    width="1144" height="744"
+    fill="none" stroke="#EBC79A" stroke-opacity="0.28" stroke-width="1"
+  />
+  
+  <rect x="539.047619047619" y="331.42857142857144" width="121.9047619047619" height="72.38095238095238" rx="7.619047619047619" fill="none" stroke="#EBC79A" stroke-width="3.0476190476190474" opacity="0.55" />
+  <rect x="580.952380952381" y="316.1904761904762" width="38.095238095238095" height="15.238095238095237" rx="3.8095238095238093" fill="none" stroke="#EBC79A" stroke-width="3.0476190476190474" opacity="0.55" />
+  <circle cx="600" cy="367.6190476190476" r="24.76190476190476" fill="none" stroke="#EBC79A" stroke-width="3.0476190476190474" opacity="0.55" />
+  <circle cx="600" cy="367.6190476190476" r="11.142857142857142" fill="#EBC79A" opacity="0.35" />
+  
+  <text x="56" y="712.88" font-family="Arial, Helvetica, sans-serif" font-size="13.2" letter-spacing="4.8" fill="#EBC79A" opacity="0.75">PHOTOGRAPHY COMING SOON</text>
+  <text x="56" y="746" font-family="Georgia, serif" font-size="28.8" fill="#F6EFE4" opacity="0.92">104 Naramata Bench Rd</text>
+</svg>
