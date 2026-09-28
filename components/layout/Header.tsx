@@ -4,15 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { siteConfig } from "@/data/site";
 import { cn } from "@/lib/cn";
 
 const NAV_LINKS = [
-  { href: "/listings", label: "Listings" },
+  { href: "/about", label: "About" },
   { href: "/areas", label: "Areas" },
+  { href: "/listings", label: "Properties" },
   { href: "/buy", label: "Buy" },
   { href: "/sell", label: "Sell" },
-  { href: "/about", label: "About" },
-  { href: "/resources", label: "Resources" },
+  { href: "/market-update", label: "Market" },
+  { href: "/testimonials", label: "Testimonials" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -60,7 +62,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-5 xl:gap-7 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -125,7 +127,33 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <div className="mt-2 px-3">
+            <div className="mt-3 flex flex-col gap-2 border-t border-cream/10 px-3 pt-4 text-sm text-cream/70">
+              <a href={siteConfig.phoneHref} className="hover:text-cream">
+                {siteConfig.phone}
+              </a>
+              <a href={siteConfig.emailHref} className="hover:text-cream">
+                {siteConfig.email}
+              </a>
+              <div className="mt-1 flex items-center gap-3">
+                <a
+                  href={siteConfig.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cream"
+                >
+                  Instagram
+                </a>
+                <a
+                  href={siteConfig.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cream"
+                >
+                  Facebook
+                </a>
+              </div>
+            </div>
+            <div className="mt-4 px-3">
               <Button href="/contact" className="w-full">
                 Book a Call
               </Button>

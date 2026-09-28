@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TopBar } from "@/components/layout/TopBar";
 import { siteConfig, siteUrl } from "@/data/site";
 import { jsonLdScript, websiteJsonLd } from "@/lib/seo";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <TopBar />
         <Header />
         <main id="main-content" className="flex-1">
           {children}

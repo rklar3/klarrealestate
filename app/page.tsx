@@ -4,6 +4,7 @@ import { MeetSanam } from "@/components/home/MeetSanam";
 import { ServiceAreaTiles } from "@/components/home/ServiceAreaTiles";
 import { BuySellSplit } from "@/components/home/BuySellSplit";
 import { Testimonials } from "@/components/testimonials/Testimonials";
+import { InstagramFollow } from "@/components/home/InstagramFollow";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { FAQSection } from "@/components/faq/FAQSection";
 import { Section } from "@/components/ui/Section";
@@ -40,7 +41,10 @@ export default function HomePage() {
       <Section tone="cream">
         <Testimonials />
       </Section>
-      <FAQSection faqs={homeFaqs} tone="sand" />
+      <Section tone="sand">
+        <InstagramFollow />
+      </Section>
+      <FAQSection faqs={homeFaqs} tone="cream" />
       <Section tone="ink">
         <ContactCTA />
       </Section>

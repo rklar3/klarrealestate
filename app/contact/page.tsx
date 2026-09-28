@@ -66,6 +66,28 @@ export default function ContactPage() {
             </div>
 
             <div>
+              <p className="eyebrow text-terracotta-dark">Office</p>
+              <p className="mt-3 text-muted-1">
+                {siteConfig.address.streetAddress}
+                <br />
+                {siteConfig.address.addressLocality}, {siteConfig.address.addressRegion}{" "}
+                {siteConfig.address.postalCode}
+              </p>
+              <p className="mt-2 text-sm text-muted-1">
+                P:{" "}
+                <a href={siteConfig.officePhoneHref} className="hover:text-terracotta-dark">
+                  {siteConfig.officePhone}
+                </a>
+                {" · "}F: {siteConfig.officeFax}
+              </p>
+              <p className="mt-1 text-sm text-muted-1">
+                <a href={siteConfig.officeEmailHref} className="hover:text-terracotta-dark">
+                  {siteConfig.officeEmail}
+                </a>
+              </p>
+            </div>
+
+            <div>
               <p className="eyebrow text-terracotta-dark">Service area</p>
               <p className="mt-3 text-muted-1">{siteConfig.region}</p>
               <ul className="mt-2 text-muted-1">
@@ -75,14 +97,38 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="overflow-hidden rounded-card border border-muted-3/40">
-              <iframe
-                title="Map of the Okanagan Valley service area"
-                src="https://www.google.com/maps?q=Okanagan+Valley,+BC&output=embed"
-                className="h-64 w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div className="rounded-card border border-ink/10 bg-paper p-6">
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-terracotta/10 text-terracotta-dark"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinejoin="round"
+                    />
+                    <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" strokeWidth="1.7" />
+                  </svg>
+                </span>
+                <p className="font-semibold text-ink">Visit the office</p>
+              </div>
+              <p className="mt-3 text-sm text-muted-1">
+                {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality}{" "}
+                {siteConfig.address.postalCode}
+              </p>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  `${siteConfig.address.streetAddress}, ${siteConfig.address.addressLocality}, ${siteConfig.address.addressRegion} ${siteConfig.address.postalCode}`,
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-dark hover:text-ink"
+              >
+                Get directions ↗
+              </a>
             </div>
           </div>
         </div>

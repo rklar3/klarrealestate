@@ -1,6 +1,21 @@
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
+import { areas } from "@/data/areas";
 import { Container } from "@/components/ui/Container";
+
+function PinIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" strokeWidth="1.7" />
+    </svg>
+  );
+}
 
 const EXPLORE_LINKS = [
   { href: "/listings", label: "Listings" },
@@ -67,10 +82,16 @@ export function Footer() {
 
         <div>
           <p className="eyebrow text-terracotta-dark">Service areas</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {siteConfig.serviceAreas.map((area) => (
+          <ul className="mt-4 space-y-3 text-sm">
+            {areas.map((area) => (
               <li key={area.slug}>
-                <Link href={`/areas/${area.slug}`} className="hover:text-ink">
+                <Link
+                  href={`/areas/${area.slug}`}
+                  className="group flex items-center gap-3 hover:text-ink"
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-terracotta/10 text-terracotta-dark transition-colors group-hover:bg-terracotta group-hover:text-cream">
+                    <PinIcon />
+                  </span>
                   {area.name}
                 </Link>
               </li>

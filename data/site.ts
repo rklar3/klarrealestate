@@ -19,14 +19,16 @@ export const siteConfig = {
   instagramHandle: "@klarrealestate",
   facebook: "https://www.facebook.com/klarrealestate",
   url: siteUrl,
-  // TODO: confirm real brokerage office address. Left unset intentionally —
-  // JSON-LD and footer fall back to service-area-only (no street address)
-  // rather than fabricate or expose one. Add here once confirmed.
-  address: null as null | {
-    streetAddress: string;
-    addressLocality: string;
-    addressRegion: string;
-    postalCode: string;
+  officePhone: "250-448-8885",
+  officePhoneHref: "tel:+12504488885",
+  officeFax: "604-620-7970",
+  officeEmail: "info@oakwyn.com",
+  officeEmailHref: "mailto:info@oakwyn.com",
+  address: {
+    streetAddress: "473 Bernard Avenue",
+    addressLocality: "Kelowna",
+    addressRegion: "British Columbia",
+    postalCode: "V1Y 6N8",
   },
   serviceAreas: [
     { name: "Kelowna", slug: "kelowna" },

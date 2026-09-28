@@ -82,10 +82,16 @@ export default function AboutPage() {
                 the valley — and tailors the level of hand-holding to what each client actually
                 wants.
               </p>
-              <p className="text-sm italic text-muted-2">
-                [TODO: confirm and add real credentials, licensing details, years of experience,
-                and any awards or designations before launch.]
+            </div>
+
+            <div className="mt-8">
+              <p className="eyebrow text-terracotta-dark">Education</p>
+              <p className="mt-2 text-sm text-muted-1">
+                University of British Columbia — Bachelor of Applied Science (BASc), Electrical
+                Engineering, 2014–2018
               </p>
+              {/* TODO: confirm licensing details, years of real-estate experience, and any
+                  awards or professional designations (e.g. from Oakwyn or BCREA) before launch. */}
             </div>
 
             <div className="mt-10 grid gap-5 sm:grid-cols-3">

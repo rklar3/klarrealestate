@@ -69,9 +69,14 @@ export function realEstateAgentJsonLd() {
       siteConfig.region,
     ],
     sameAs: [siteConfig.instagram, siteConfig.facebook],
-    // TODO: add address/geo once a confirmed brokerage office address is
-    // available. Intentionally omitted for now (service-area only) rather
-    // than fabricated.
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.address.streetAddress,
+      addressLocality: siteConfig.address.addressLocality,
+      addressRegion: siteConfig.address.addressRegion,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: "CA",
+    },
   };
 }
 

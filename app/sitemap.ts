@@ -16,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/listings",
     "/areas",
     "/resources",
+    "/market-update",
+    "/testimonials",
   ];
 
   const staticEntries: MetadataRoute.Sitemap = staticPaths.map((path) => ({
