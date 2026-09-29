@@ -1,9 +1,15 @@
 import { HeroBackground } from "@/components/home/HeroBackground";
-import { QuickSearch } from "@/components/home/QuickSearch";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { getListings } from "@/data/listings";
+import { OWN_LISTINGS_QUERY, siteConfig } from "@/data/site";
 
-export function Hero() {
+export async function Hero() {
+  const listings = await getListings();
+  const ownCount = listings.filter((listing) => listing.isOwnListing).length;
+  const firstName = siteConfig.agentName.split(" ")[0];
+
   return (
     // -mt-20 pulls the hero up underneath the sticky 80px header (h-20) so the
     // header's transparent state overlays the dark hero image instead of the
@@ -26,8 +32,18 @@ export function Hero() {
           Kelowna, Penticton, Vernon, and Summerland — with real answers, not just listings.
         </p>
 
-        <div className="mt-10 max-w-3xl">
-          <QuickSearch />
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <Button href="/listings" size="lg">
+            Browse listings
+          </Button>
+          {ownCount > 0 && (
+            <Button href={`/listings?agent=${OWN_LISTINGS_QUERY.agent}`} variant="ghost" size="lg">
+              See {firstName}&apos;s listings
+              <span className="rounded-full bg-cream/15 px-2 py-0.5 text-xs tabular-nums">
+                {ownCount}
+              </span>
+            </Button>
+          )}
         </div>
       </Container>
     </div>

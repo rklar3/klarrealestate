@@ -11,6 +11,9 @@ import { Section } from "@/components/ui/Section";
 import { homeFaqs } from "@/data/faqs";
 import { buildMetadata, jsonLdScript, realEstateAgentJsonLd } from "@/lib/seo";
 
+// Featured listings come from the DDF feed; refresh with its cache.
+export const revalidate = 3600;
+
 export const metadata = buildMetadata({
   title: "Sanam Klar, REALTOR® — Okanagan Real Estate",
   description:

@@ -38,6 +38,15 @@ export const siteConfig = {
     { name: "Summerland", slug: "summerland" },
   ],
   region: "Okanagan Valley, British Columbia",
+  // CREA DDF® identifiers for Sanam's data feed (not secrets; the feed
+  // credentials live in DDF_CLIENT_ID / DDF_CLIENT_SECRET).
+  ddf: {
+    memberKey: "2222866",
+    destinationId: 67413,
+  },
 } as const;
 
 export type ServiceAreaSlug = (typeof siteConfig.serviceAreas)[number]["slug"];
+
+// `/listings?agent=sanam` narrows the feed to Sanam's own listings.
+export const OWN_LISTINGS_QUERY = { agent: "sanam" } as const;

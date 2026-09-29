@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { getListings } from "@/data/listings";
+import { getFeaturedListings } from "@/data/listings";
 import { ListingCard } from "@/components/listings/ListingCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 
-export function FeaturedListings() {
-  const featured = getListings().slice(0, 3);
+export async function FeaturedListings() {
+  // Sanam's own listings sort first, then the newest office listings.
+  const featured = await getFeaturedListings(3);
 
   return (
     <div>
@@ -19,19 +20,21 @@ export function FeaturedListings() {
         </Button>
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((listing, index) => (
-          <ListingCard key={listing.slug} listing={listing} priority={index === 0} />
-        ))}
-      </div>
-
-      <p className="mt-6 text-sm text-muted-2">
-        Sample listings shown above.{" "}
-        <Link href="/listings" className="underline hover:text-ink">
-          Browse the full list
-        </Link>
-        .
-      </p>
+      {featured.length > 0 ? (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((listing, index) => (
+            <ListingCard key={listing.slug} listing={listing} priority={index === 0} />
+          ))}
+        </div>
+      ) : (
+        <p className="mt-10 text-muted-1">
+          New listings are on the way.{" "}
+          <Link href="/contact" className="underline hover:text-ink">
+            Tell Sanam what you&apos;re looking for
+          </Link>{" "}
+          to get options as they come up.
+        </p>
+      )}
     </div>
   );
 }

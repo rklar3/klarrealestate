@@ -32,7 +32,9 @@ export function buildMetadata({
       siteName: siteConfig.name,
       locale: "en_CA",
       type: "website",
-      images: ogImage ? [{ url: absoluteUrl(ogImage) }] : undefined,
+      images: ogImage
+        ? [{ url: /^https?:\/\//.test(ogImage) ? ogImage : absoluteUrl(ogImage) }]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
@@ -128,33 +130,42 @@ export function faqJsonLd(faqs: { question: string; answer: string }[]) {
 export function residenceJsonLd(listing: {
   slug: string;
   address: string;
+  addressHidden: boolean;
+  city: string;
+  province: string;
   price: number;
-  beds: number;
-  baths: number;
-  sqft: number;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
   summary: string;
-  areaLabel: string;
+  photos: string[];
 }) {
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     url: absoluteUrl(`/listings/${listing.slug}`),
-    name: listing.address,
+    name: listing.addressHidden ? listing.address : `${listing.address}, ${listing.city}`,
     description: listing.summary,
-    price: listing.price,
-    priceCurrency: "CAD",
-    numberOfBedrooms: listing.beds,
-    numberOfBathroomsTotal: listing.baths,
-    floorSize: {
-      "@type": "QuantitativeValue",
-      value: listing.sqft,
-      unitCode: "FTK",
+    image: listing.photos.slice(0, 5),
+    offers: {
+      "@type": "Offer",
+      price: listing.price,
+      priceCurrency: "CAD",
     },
+    ...(listing.beds != null && { numberOfBedrooms: listing.beds }),
+    ...(listing.baths != null && { numberOfBathroomsTotal: listing.baths }),
+    ...(listing.sqft != null && {
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: listing.sqft,
+        unitCode: "FTK",
+      },
+    }),
     address: {
       "@type": "PostalAddress",
-      streetAddress: listing.address,
-      addressLocality: listing.areaLabel,
-      addressRegion: "BC",
+      ...(!listing.addressHidden && { streetAddress: listing.address }),
+      addressLocality: listing.city,
+      addressRegion: listing.province,
       addressCountry: "CA",
     },
   };

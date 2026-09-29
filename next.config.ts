@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Listing photos from the CREA DDF® feed.
+    remotePatterns: [new URL("https://ddfcdn.realtor.ca/listing/**")],
   },
 };
 

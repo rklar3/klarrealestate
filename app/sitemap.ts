@@ -4,7 +4,9 @@ import { getListings } from "@/data/listings";
 import { areas } from "@/data/areas";
 import { getAllPosts } from "@/lib/posts";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [
     "",
     "/about",
@@ -32,8 +34,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const listingEntries: MetadataRoute.Sitemap = getListings().map((listing) => ({
+  const listingEntries: MetadataRoute.Sitemap = (await getListings()).map((listing) => ({
     url: `${siteUrl}/listings/${listing.slug}`,
+    lastModified: listing.updatedAt ?? undefined,
     changeFrequency: "weekly",
     priority: 0.6,
   }));

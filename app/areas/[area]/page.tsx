@@ -11,6 +11,9 @@ import { FAQSection } from "@/components/faq/FAQSection";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { buildMetadata, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
+// Refresh with the DDF feed cache (data/listings.ts).
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return areas.map((area) => ({ area: area.slug }));
 }
@@ -44,7 +47,7 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
     notFound();
   }
 
-  const areaListings = filterListings({ area: area.slug });
+  const areaListings = await filterListings({ area: area.slug });
 
   return (
     <>
@@ -138,7 +141,7 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
 
       {areaListings.length > 0 && (
         <Section tone="sand">
-          <Eyebrow>Sample listings</Eyebrow>
+          <Eyebrow>Current listings</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">Homes in {area.name}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {areaListings.map((listing) => (

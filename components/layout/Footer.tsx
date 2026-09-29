@@ -127,6 +127,13 @@ export function Footer() {
             All information deemed reliable but not guaranteed and should be independently verified.
             Not intended to solicit properties already listed for sale.
           </p>
+          <p>
+            The trademarks REALTOR®, REALTORS®, and the REALTOR® logo are controlled by The Canadian
+            Real Estate Association (CREA) and identify real estate professionals who are members of
+            CREA. The trademarks MLS®, Multiple Listing Service® and the associated logos are
+            certification marks owned by CREA and identify the quality of services provided by real
+            estate professionals who are members of CREA.
+          </p>
           {/* TODO: BC real estate compliance — brokerage disclosure, PREC (personal
               real estate corporation) notice if applicable, and any BCFSA-required
               disclaimers. Confirm exact required wording with Oakwyn's compliance

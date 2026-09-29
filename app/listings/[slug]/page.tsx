@@ -1,21 +1,26 @@
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import { getListingBySlug, getListings } from "@/data/listings";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getListingBySlug, getListings, type Listing } from "@/data/listings";
 import { formatCurrencyCAD } from "@/lib/mortgage";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
+import { ListingStats } from "@/components/listings/ListingCard";
+import { ListingGallery, ListingPhotoGrid } from "@/components/listings/ListingGallery";
+import { DdfDisclaimer, RealtorCaBadge } from "@/components/listings/RealtorCaBadge";
 import { MortgageCalculator } from "@/components/calculators/MortgageCalculator";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { buildMetadata, breadcrumbJsonLd, jsonLdScript, residenceJsonLd } from "@/lib/seo";
 
-export function generateStaticParams() {
-  return getListings().map((listing) => ({ slug: listing.slug }));
+// Matches the DDF feed cache in data/listings.ts.
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  return (await getListings()).map((listing) => ({ slug: listing.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const listing = getListingBySlug(slug);
+  const listing = await getListingBySlug(slug);
 
   if (!listing) {
     return buildMetadata({
@@ -27,11 +32,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return buildMetadata({
-    title: `${listing.address} | ${formatCurrencyCAD(listing.price)}`,
+    title: `${listing.address}, ${listing.city} | ${formatCurrencyCAD(listing.price)}`,
     description: listing.summary,
     path: `/listings/${listing.slug}`,
-    ogImage: `/images/${listing.image}.svg`,
+    ogImage: listing.photos[0],
   });
+}
+
+function mapQuery(listing: Listing): string {
+  if (listing.latitude != null && listing.longitude != null) {
+    return `${listing.latitude},${listing.longitude}`;
+  }
+  return listing.addressHidden
+    ? `${listing.city}, ${listing.province}`
+    : `${listing.address}, ${listing.city}, ${listing.province}`;
+}
+
+function groupRoomsByLevel(rooms: Listing["rooms"]) {
+  const groups = new Map<string, Listing["rooms"]>();
+  for (const room of rooms) {
+    groups.set(room.level, [...(groups.get(room.level) ?? []), room]);
+  }
+  return [...groups.entries()];
 }
 
 export default async function ListingDetailPage({
@@ -40,11 +62,18 @@ export default async function ListingDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const listing = getListingBySlug(slug);
+  const listing = await getListingBySlug(slug);
 
   if (!listing) {
     notFound();
   }
+
+  if (listing.slug !== slug) {
+    permanentRedirect(`/listings/${listing.slug}`);
+  }
+
+  const fullAddress = listing.addressHidden ? listing.address : `${listing.address}, ${listing.city}`;
+  const listedBy = [listing.listAgentName, listing.listOfficeName].filter(Boolean).join(", ");
 
   return (
     <>
@@ -57,68 +86,102 @@ export default async function ListingDetailPage({
         dangerouslySetInnerHTML={jsonLdScript(
           breadcrumbJsonLd([
             { name: "Listings", path: "/listings" },
-            { name: listing.address, path: `/listings/${listing.slug}` },
+            { name: fullAddress, path: `/listings/${listing.slug}` },
           ]),
         )}
       />
 
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-ink sm:aspect-[21/9]">
-        <Image
-          src={`/images/${listing.image}.svg`}
-          alt={`${listing.address} — placeholder image`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <span className="absolute left-6 top-6 rounded-full bg-ink/85 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cream">
-          {listing.status}
-        </span>
-      </div>
+      <ListingGallery photos={listing.photos} alt={fullAddress} badge={listing.badge} />
 
       <Section tone="cream">
         <div className="grid gap-12 lg:grid-cols-5">
           <div className="lg:col-span-3">
-            <Eyebrow>{listing.areaLabel}</Eyebrow>
+            <Eyebrow>
+              {listing.city} · MLS® {listing.mlsNumber}
+            </Eyebrow>
             <h1 className="mt-3 text-3xl sm:text-4xl">{listing.address}</h1>
             <p className="mt-2 font-display text-3xl text-terracotta">
               {formatCurrencyCAD(listing.price)}
             </p>
-            <div className="mt-4 flex gap-6 text-muted-1">
-              <span>{listing.beds} bd</span>
-              <span>{listing.baths} ba</span>
-              <span>{listing.sqft.toLocaleString("en-CA")} sqft</span>
-              <span>{listing.type}</span>
+            <ListingStats
+              listing={listing}
+              className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-muted-1"
+            />
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-muted-3/40 py-4">
+              {listedBy && <p className="text-sm text-muted-1">Listed by {listedBy}</p>}
+              <div className="sm:ml-auto">
+                <RealtorCaBadge href={listing.realtorCaUrl ?? undefined} />
+              </div>
             </div>
 
-            <div className="mt-8 space-y-4 text-muted-1">
-              {listing.description.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-ink">Key features</h2>
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                {listing.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-muted-1">
-                    <span aria-hidden className="mt-1 text-terracotta">
-                      &bull;
-                    </span>
-                    {feature}
-                  </li>
+            {listing.description.length > 0 && (
+              <div className="mt-8 space-y-4 text-muted-1">
+                {listing.description.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
                 ))}
-              </ul>
-            </div>
+              </div>
+            )}
+
+            {listing.virtualTourUrl && (
+              <p className="mt-6">
+                <a
+                  href={listing.virtualTourUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-terracotta underline hover:text-terracotta-dark"
+                >
+                  Take the virtual tour
+                </a>
+              </p>
+            )}
+
+            {listing.details.length > 0 && (
+              <div className="mt-10">
+                <h2 className="text-xl font-semibold text-ink">Property details</h2>
+                <dl className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                  {listing.details.map((detail) => (
+                    <div
+                      key={detail.label}
+                      className="flex justify-between gap-4 border-b border-muted-3/30 pb-2 text-sm"
+                    >
+                      <dt className="text-muted-2">{detail.label}</dt>
+                      <dd className="text-right text-ink">{detail.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
+
+            {listing.rooms.length > 0 && (
+              <div className="mt-10">
+                <h2 className="text-xl font-semibold text-ink">Rooms</h2>
+                <div className="mt-4 space-y-6">
+                  {groupRoomsByLevel(listing.rooms).map(([level, rooms]) => (
+                    <div key={level}>
+                      <h3 className="eyebrow text-terracotta-dark">{level}</h3>
+                      <ul className="mt-2 divide-y divide-muted-3/30 text-sm">
+                        {rooms.map((room, index) => (
+                          <li key={`${room.type}-${index}`} className="flex justify-between gap-4 py-2">
+                            <span className="text-ink">{room.type}</span>
+                            {room.dimensions && (
+                              <span className="text-muted-2">{room.dimensions}</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="mt-10">
               <h2 className="text-xl font-semibold text-ink">Location</h2>
               <div className="mt-3 overflow-hidden rounded-card border border-muted-3/40">
                 <iframe
-                  title={`Map of ${listing.areaLabel}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(
-                    `${listing.areaLabel}, BC`,
-                  )}&output=embed`}
+                  title={`Map of ${fullAddress}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(mapQuery(listing))}&z=14&output=embed`}
                   className="h-80 w-full"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -128,6 +191,19 @@ export default async function ListingDetailPage({
 
             <div className="mt-10">
               <MortgageCalculator initialPrice={listing.price} title="Estimate your payment" />
+            </div>
+
+            {listing.photos.length > 1 && (
+              <div id="all-photos" className="mt-10 hidden scroll-mt-24 sm:block">
+                <h2 className="text-xl font-semibold text-ink">
+                  All photos ({listing.photos.length})
+                </h2>
+                <ListingPhotoGrid photos={listing.photos} alt={fullAddress} />
+              </div>
+            )}
+
+            <div className="mt-10">
+              <DdfDisclaimer source={listing.dataSource} />
             </div>
           </div>
 
