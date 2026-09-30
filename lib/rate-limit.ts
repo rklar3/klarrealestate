@@ -7,11 +7,11 @@ const hits = new Map<string, number[]>();
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 5;
 
-export function isRateLimited(key: string): boolean {
+export function isRateLimited(key: string, maxRequests = MAX_REQUESTS): boolean {
   const now = Date.now();
   const timestamps = (hits.get(key) ?? []).filter((t) => now - t < WINDOW_MS);
 
-  if (timestamps.length >= MAX_REQUESTS) {
+  if (timestamps.length >= maxRequests) {
     hits.set(key, timestamps);
     return true;
   }

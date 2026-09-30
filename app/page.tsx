@@ -42,7 +42,7 @@ export default function HomePage() {
         <BuySellSplit />
       </Section>
       <Section tone="cream">
-        <Testimonials />
+        <Testimonials limit={3} />
       </Section>
       <Section tone="sand">
         <InstagramFollow />

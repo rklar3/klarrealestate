@@ -44,7 +44,14 @@ export const siteConfig = {
     memberKey: "2222866",
     destinationId: 67413,
   },
+  // Google Business Profile "Sanam Klar | Okanagan REALTOR®". Place IDs are the
+  // one piece of Places data Google allows storing indefinitely.
+  googlePlaceId: "ChIJW8grywn1fVMRyE5PF-CwI5c",
 } as const;
+
+export const googleReviewsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  "Sanam Klar Okanagan REALTOR",
+)}&query_place_id=${siteConfig.googlePlaceId}`;
 
 export type ServiceAreaSlug = (typeof siteConfig.serviceAreas)[number]["slug"];
 
