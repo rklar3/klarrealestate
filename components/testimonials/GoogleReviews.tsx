@@ -10,6 +10,30 @@ type State =
   | { status: "idle" | "loading" | "error" }
   | { status: "ready"; data: GoogleReviewsData };
 
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function Arrow({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={dir === "prev" ? "Previous reviews" : "Next reviews"}
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition hover:border-ink hover:bg-ink/5 active:scale-95"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d={dir === "prev" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+      </svg>
+    </button>
+  );
+}
+
 const linkClass = "font-semibold text-terracotta underline-offset-4 hover:text-terracotta-dark hover:underline";
 
 // Google requires the "Google Maps" attribution in Roboto (or a sans-serif
@@ -52,11 +76,16 @@ export function Stars({
   );
 }
 
-function ReviewCard({ review }: { review: GoogleReview }) {
+function ReviewCard({ review, className }: { review: GoogleReview; className?: string }) {
   const initial = review.authorName.charAt(0).toUpperCase();
 
   return (
-    <article className="flex min-w-[280px] shrink-0 snap-start flex-col rounded-card border border-ink/10 bg-paper p-6 sm:min-w-0 sm:shrink">
+    <article
+      className={cn(
+        "flex min-w-[280px] shrink-0 snap-start flex-col rounded-card border border-ink/10 bg-paper p-6 sm:min-w-0 sm:shrink",
+        className,
+      )}
+    >
       <div className="flex items-center gap-3">
         {review.authorPhotoUri ? (
           // eslint-disable-next-line @next/next/no-img-element -- Google forbids proxying/caching Places photos
@@ -138,6 +167,7 @@ function SkeletonCard() {
 export function GoogleReviews({ limit }: { limit?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<State>({ status: "idle" });
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     const node = ref.current;
@@ -148,7 +178,12 @@ export function GoogleReviews({ limit }: { limit?: number }) {
       setState({ status: "loading" });
       const data = await loadGoogleReviews();
       if (cancelled) return;
-      setState(data && data.reviews.length > 0 ? { status: "ready", data } : { status: "error" });
+      // Shuffle after mount so a refresh shows a different order (no SSR mismatch).
+      setState(
+        data && data.reviews.length > 0
+          ? { status: "ready", data: { ...data, reviews: shuffle(data.reviews) } }
+          : { status: "error" },
+      );
     };
 
     const observer = new IntersectionObserver(
@@ -187,8 +222,13 @@ export function GoogleReviews({ limit }: { limit?: number }) {
   }
 
   const data = state.status === "ready" ? state.data : null;
-  const reviews = data ? data.reviews.slice(0, limit) : [];
-  const skeletonCount = limit ?? 3;
+  const all = data ? data.reviews : [];
+  const visible = limit ?? 3;
+  const n = all.length;
+  // Rotate so the arrows step through every review, wrapping around.
+  const reviews = n ? all.map((_, i) => all[(i + offset) % n]) : [];
+  const canPage = n > visible;
+  const skeletonCount = visible;
 
   return (
     <div ref={ref}>
@@ -233,14 +273,22 @@ export function GoogleReviews({ limit }: { limit?: number }) {
         aria-busy={!data}
       >
         {data
-          ? reviews.map((review) => <ReviewCard key={review.id} review={review} />)
+          ? reviews.map((review, i) => (
+              <ReviewCard
+                key={review.id}
+                review={review}
+                // Mobile scrolls through all; larger screens show a window.
+                className={i >= visible ? "sm:hidden" : undefined}
+              />
+            ))
           : Array.from({ length: skeletonCount }, (_, i) => <SkeletonCard key={i} />)}
       </div>
 
-      {data && (
-        <p className="mt-2 text-xs text-muted-2">
-          Most relevant reviews, as ranked by Google. Reviews from <GoogleMapsAttribution />.
-        </p>
+      {data && canPage && (
+        <div className="mt-4 hidden justify-end gap-2 sm:flex">
+          <Arrow dir="prev" onClick={() => setOffset((o) => (o - 1 + n) % n)} />
+          <Arrow dir="next" onClick={() => setOffset((o) => (o + 1) % n)} />
+        </div>
       )}
     </div>
   );

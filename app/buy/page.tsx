@@ -1,5 +1,5 @@
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { MortgageCalculator } from "@/components/calculators/MortgageCalculator";
@@ -50,17 +50,14 @@ export default function BuyPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Buy", path: "/buy" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">For buyers</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">Buying in the Okanagan</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>Buying in the Okanagan</>}>
+        <p>
           Whether it&rsquo;s your first home or your fifth, here&rsquo;s what the process actually looks like
           — and how a local REALTOR® fits into it.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
-        <Eyebrow>The process</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">Step by step</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((step, index) => (
@@ -78,7 +75,6 @@ export default function BuyPage() {
       <Section tone="sand">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <Eyebrow>First-time buyers</Eyebrow>
             <h2 className="mt-3 text-3xl">Programs worth knowing about</h2>
             <ul className="mt-6 space-y-4 text-muted-1">
               <li>
@@ -102,7 +98,6 @@ export default function BuyPage() {
           </div>
 
           <div>
-            <Eyebrow>Why work with a local agent</Eyebrow>
             <h2 className="mt-3 text-3xl">What a REALTOR® actually does for you</h2>
             <ul className="mt-6 space-y-3 text-muted-1">
               <li>Access to full MLS® inventory, including homes not yet widely advertised.</li>
@@ -119,7 +114,6 @@ export default function BuyPage() {
       </Section>
 
       <Section tone="cream">
-        <Eyebrow>Financing basics</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">Estimate a monthly payment</h2>
         <p className="mt-4 max-w-2xl text-muted-1">
           Get a rough sense of what a given price point could mean monthly. This is an estimate

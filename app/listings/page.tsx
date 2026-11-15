@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import { filterListings } from "@/data/listings";
 import { ListingCard } from "@/components/listings/ListingCard";
 import { ListingFilters } from "@/components/listings/ListingFilters";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { DdfDisclaimer, RealtorCaBadge } from "@/components/listings/RealtorCaBadge";
 import { buildMetadata } from "@/lib/seo";
@@ -43,19 +43,15 @@ export default async function ListingsPage({
 
   return (
     <>
-      <Section tone="ink" className="py-16 sm:py-20">
-        <Eyebrow tone="gold">Listings</Eyebrow>
-        <h1 className="mt-3 text-4xl sm:text-5xl">
-          {ownOnly ? `${firstName}'s listings` : "Homes for sale"}
-        </h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>{ownOnly ? `${firstName}'s listings` : "Homes for sale"}</>}>
+        <p>
           {ownOnly
             ? `Properties ${firstName} currently has listed for sale.`
             : `Current MLS® listings from ${firstName} and the ${siteConfig.brokerage} team.`}{" "}
           Updated throughout the day — and if you don&apos;t see the right fit, {firstName} can
           search the full market for you.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
         <Suspense>

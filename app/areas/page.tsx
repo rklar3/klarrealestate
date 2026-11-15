@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { areas } from "@/data/areas";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { buildMetadata, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
@@ -21,14 +21,12 @@ export default function AreasIndexPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Areas", path: "/areas" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">Area guides</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">Okanagan Valley communities</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>Okanagan Valley communities</>}>
+        <p>
           Each Okanagan community has its own character. Explore the guides below to see what
           fits your lifestyle and budget.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -37,8 +35,8 @@ export default function AreasIndexPage() {
               <Link href={`/areas/${area.slug}`} className="group block">
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
-                    src={`/images/${area.image}.svg`}
-                    alt={`${area.name} — placeholder image`}
+                    src={`/images/areas/${area.image}.jpg`}
+                    alt={`${area.name}, British Columbia`}
                     fill
                     sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"

@@ -4,7 +4,6 @@ import { areas, getAreaBySlug } from "@/data/areas";
 import { filterListings } from "@/data/listings";
 import { areaFaqs } from "@/data/faqs";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { ListingCard } from "@/components/listings/ListingCard";
 import { FAQSection } from "@/components/faq/FAQSection";
@@ -35,7 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ area: str
     title: `Homes for Sale in ${area.name}, BC`,
     description: `${area.tagline}. Explore what it's like living in ${area.name} and see current homes for sale.`,
     path: `/areas/${area.slug}`,
-    ogImage: `/images/${area.image}.svg`,
+    ogImage: `/images/areas/${area.image}.jpg`,
   });
 }
 
@@ -63,8 +62,8 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
 
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-ink sm:aspect-[21/9]">
         <Image
-          src={`/images/${area.image}.svg`}
-          alt={`${area.name} — placeholder image`}
+          src={`/images/areas/${area.image}.jpg`}
+          alt={`${area.name}, British Columbia`}
           fill
           priority
           sizes="100vw"
@@ -72,7 +71,6 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
         <div className="container-page absolute bottom-8 left-1/2 -translate-x-1/2">
-          <Eyebrow tone="gold">{area.name}, BC</Eyebrow>
           <h1 className="mt-2 text-4xl text-cream sm:text-5xl">{area.tagline}</h1>
         </div>
       </div>
@@ -141,7 +139,6 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
 
       {areaListings.length > 0 && (
         <Section tone="sand">
-          <Eyebrow>Current listings</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">Homes in {area.name}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {areaListings.map((listing) => (

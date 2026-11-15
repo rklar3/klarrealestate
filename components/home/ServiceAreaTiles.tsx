@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { areas } from "@/data/areas";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function ServiceAreaTiles() {
   return (
     <div>
-      <Eyebrow>Service areas</Eyebrow>
       <h2 className="mt-3 text-3xl sm:text-4xl">Okanagan communities, up close</h2>
       <p className="mt-4 max-w-2xl text-muted-1">
         Every community in the valley has its own rhythm. Explore the guide for each one to see
@@ -21,8 +19,8 @@ export function ServiceAreaTiles() {
             className="group relative block aspect-[3/4] overflow-hidden rounded-card"
           >
             <Image
-              src={`/images/${area.image}.svg`}
-              alt={`${area.name} — placeholder image`}
+              src={`/images/areas/${area.image}.jpg`}
+              alt={`${area.name}, British Columbia`}
               fill
               sizes="(min-width: 1024px) 20vw, (min-width: 640px) 45vw, 90vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"

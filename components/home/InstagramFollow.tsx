@@ -1,4 +1,3 @@
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/data/site";
 
@@ -25,7 +24,6 @@ export function InstagramFollow() {
         <div>
           <div className="flex items-center gap-3 text-gold">
             <InstagramGlyph />
-            <Eyebrow tone="gold">{siteConfig.instagramHandle}</Eyebrow>
           </div>
           <h2 className="mt-4 max-w-lg text-3xl sm:text-4xl">
             Follow along on Instagram

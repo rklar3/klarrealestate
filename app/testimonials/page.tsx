@@ -1,5 +1,5 @@
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Testimonials } from "@/components/testimonials/Testimonials";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { siteConfig } from "@/data/site";
@@ -21,14 +21,12 @@ export default function TestimonialsPage() {
         )}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">Testimonials</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">What clients say</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>What clients say</>}>
+        <p>
           Real feedback from buyers and sellers who worked with {siteConfig.agentName} across the
           Okanagan Valley.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
         <Testimonials />

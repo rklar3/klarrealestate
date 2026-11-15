@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/data/site";
 
@@ -16,7 +15,6 @@ export function MeetSanam() {
         />
       </div>
       <div>
-        <Eyebrow>Meet Sanam</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">
           A local REALTOR® who knows these communities
         </h2>

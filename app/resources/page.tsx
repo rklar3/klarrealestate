@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { buildMetadata, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
@@ -22,13 +22,11 @@ export default function ResourcesIndexPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Resources", path: "/resources" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">Resources</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">Buyer & seller guides</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>Buyer & seller guides</>}>
+        <p>
           Practical guides on buying, selling, and living in the Okanagan Valley.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

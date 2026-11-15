@@ -1,5 +1,4 @@
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { siteConfig } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -16,7 +15,6 @@ export default function PrivacyPage() {
           alignment — have it reviewed by a lawyer or Oakwyn's compliance
           team before launch. Not legal advice. */}
       <div className="mx-auto max-w-2xl">
-        <Eyebrow>Legal</Eyebrow>
         <h1 className="mt-3 text-4xl">Privacy Policy</h1>
         <p className="mt-2 text-sm text-muted-2">
           Last updated: [TODO: set date on launch] — pending legal review.

@@ -2,7 +2,6 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { getListingBySlug, getListings, type Listing } from "@/data/listings";
 import { formatCurrencyCAD } from "@/lib/mortgage";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { ListingStats } from "@/components/listings/ListingCard";
 import { ListingGallery, ListingPhotoGrid } from "@/components/listings/ListingGallery";
@@ -96,9 +95,6 @@ export default async function ListingDetailPage({
       <Section tone="cream">
         <div className="grid gap-12 lg:grid-cols-5">
           <div className="lg:col-span-3">
-            <Eyebrow>
-              {listing.city} · MLS® {listing.mlsNumber}
-            </Eyebrow>
             <h1 className="mt-3 text-3xl sm:text-4xl">{listing.address}</h1>
             <p className="mt-2 font-display text-3xl text-terracotta">
               {formatCurrencyCAD(listing.price)}

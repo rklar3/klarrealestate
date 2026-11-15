@@ -1,5 +1,5 @@
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { siteConfig } from "@/data/site";
@@ -24,14 +24,12 @@ export default function ContactPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Contact", path: "/contact" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">Contact</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">Let&rsquo;s talk about your move</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>Let&rsquo;s talk about your move</>}>
+        <p>
           Reach out about buying, selling, or just exploring your options — Sanam typically
           replies within one business day.
         </p>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
         <div className="grid gap-10 lg:grid-cols-3">

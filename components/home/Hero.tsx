@@ -2,7 +2,6 @@ import { HeroBackground } from "@/components/home/HeroBackground";
 import { HeroRating } from "@/components/home/HeroRating";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getListings } from "@/data/listings";
 import { OWN_LISTINGS_QUERY, siteConfig } from "@/data/site";
 
@@ -25,7 +24,6 @@ export async function Hero() {
 
       <Container className="relative pb-32 pt-36 sm:pb-40 sm:pt-44">
         <HeroRating />
-        <Eyebrow tone="gold">Okanagan Valley, BC</Eyebrow>
         <h1 className="mt-5 max-w-3xl font-display text-6xl font-semibold leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">
           Your Okanagan home starts here
         </h1>

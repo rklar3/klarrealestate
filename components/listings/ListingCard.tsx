@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ListingImage, PhotoPlaceholder } from "@/components/listings/ListingImage";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { formatCurrencyCAD } from "@/lib/mortgage";
@@ -29,7 +29,7 @@ export function ListingCard({ listing, priority = false }: { listing: Listing; p
       <Link href={`/listings/${listing.slug}`} className="group block">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-sand">
           {cover ? (
-            <Image
+            <ListingImage
               src={cover}
               alt={`${listing.address}, ${listing.city}`}
               fill
@@ -38,9 +38,7 @@ export function ListingCard({ listing, priority = false }: { listing: Listing; p
               priority={priority}
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-muted-2">
-              Photos coming soon
-            </div>
+            <PhotoPlaceholder />
           )}
           {listing.badge && (
             <span className="absolute right-4 top-4 rounded-full bg-ink/85 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cream">

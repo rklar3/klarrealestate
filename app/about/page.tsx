@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { siteConfig } from "@/data/site";
@@ -40,13 +40,9 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "About", path: "/about" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">About</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">
-          {siteConfig.agentName}, {siteConfig.agentTitle}
-        </h1>
-        <p className="mt-4 max-w-2xl text-cream/80">{siteConfig.brokerageFull}</p>
-      </Section>
+      <PageHeader title={<>{siteConfig.agentName}, {siteConfig.agentTitle}</>}>
+        <p>{siteConfig.brokerageFull}</p>
+</PageHeader>
 
       <Section tone="cream">
         <div className="grid gap-12 lg:grid-cols-3">

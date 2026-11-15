@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ListingImage, PhotoPlaceholder } from "@/components/listings/ListingImage";
 
 // Server-rendered gallery, no client JS: a swipeable strip on mobile and a
 // 1 + 4 mosaic on larger screens, with the full set further down the page.
@@ -13,8 +13,8 @@ export function ListingGallery({
 }) {
   if (photos.length === 0) {
     return (
-      <div className="flex aspect-[16/9] w-full items-center justify-center bg-sand text-muted-2 sm:aspect-[21/9]">
-        Photos coming soon
+      <div className="aspect-[16/9] w-full sm:aspect-[21/9]">
+        <PhotoPlaceholder />
       </div>
     );
   }
@@ -28,7 +28,7 @@ export function ListingGallery({
       <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto sm:hidden">
         {photos.map((src, index) => (
           <div key={src} className="relative aspect-[4/3] w-[88%] shrink-0 snap-center">
-            <Image
+            <ListingImage
               src={src}
               alt={`${alt} — photo ${index + 1} of ${photos.length}`}
               fill
@@ -53,7 +53,7 @@ export function ListingGallery({
                   : "relative col-span-4 row-span-2 md:col-span-2"
             }
           >
-            <Image
+            <ListingImage
               src={src}
               alt={`${alt} — photo ${index + 1} of ${photos.length}`}
               fill
@@ -87,7 +87,7 @@ export function ListingPhotoGrid({ photos, alt }: { photos: string[]; alt: strin
     <div className="mt-3 grid gap-2 sm:grid-cols-2">
       {photos.map((src, index) => (
         <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-card bg-sand">
-          <Image
+          <ListingImage
             src={src}
             alt={`${alt} — photo ${index + 1} of ${photos.length}`}
             fill

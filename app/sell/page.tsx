@@ -1,5 +1,5 @@
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { FAQSection } from "@/components/faq/FAQSection";
@@ -49,22 +49,19 @@ export default function SellPage() {
         dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Sell", path: "/sell" }]))}
       />
 
-      <Section tone="ink">
-        <Eyebrow tone="gold">For sellers</Eyebrow>
-        <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">Selling your Okanagan home</h1>
-        <p className="mt-4 max-w-2xl text-cream/80">
+      <PageHeader title={<>Selling your Okanagan home</>}>
+        <p>
           A clear plan for pricing, preparing, and marketing your home — with a realistic view of
           what to expect at each stage.
         </p>
-        <div className="mt-8">
+<div className="mt-6">
           <Button href="/home-valuation" size="lg">
             Get a free home valuation
           </Button>
         </div>
-      </Section>
+</PageHeader>
 
       <Section tone="cream">
-        <Eyebrow>The process</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">Step by step</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((step, index) => (
@@ -82,7 +79,6 @@ export default function SellPage() {
       <Section tone="sand">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <Eyebrow>Marketing approach</Eyebrow>
             <h2 className="mt-3 text-3xl">How your home gets seen</h2>
             <ul className="mt-6 space-y-3 text-muted-1">
               <li>Professional photography for every listing.</li>
@@ -93,7 +89,6 @@ export default function SellPage() {
           </div>
 
           <div>
-            <Eyebrow>Pricing & staging</Eyebrow>
             <h2 className="mt-3 text-3xl">Getting the details right</h2>
             <p className="mt-4 text-muted-1">
               Pricing is grounded in recent comparable sales and current active competition in

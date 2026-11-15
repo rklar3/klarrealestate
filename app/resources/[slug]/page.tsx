@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { buildMetadata, blogPostingJsonLd, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -59,14 +58,6 @@ export default async function ResourcePostPage({
       />
 
       <Section tone="ink">
-        <Eyebrow tone="gold">
-          {new Date(post.date).toLocaleDateString("en-CA", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-          {post.draft ? " · Example / draft" : ""}
-        </Eyebrow>
         <h1 className="mt-3 max-w-2xl text-4xl sm:text-5xl">{post.title}</h1>
         <p className="mt-4 max-w-2xl text-cream/80">{post.description}</p>
       </Section>
